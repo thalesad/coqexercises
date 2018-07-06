@@ -19,12 +19,12 @@ Proof. simpl. reflexivity. Qed.
 Definition andb3 (b1:bool) (b2:bool) (b3:bool) : bool :=
   match b1 with
   | false => false
-  | true => xxxxxxxx
+  | true => andb b2 b3
   end.
 
 Print andb3.
 
-Example test_andb31: (andb3 true true true) = true..
+Example test_andb31: (andb3 true true true) = true.
 Proof. simpl. reflexivity. Qed.
 Example test_andb32: (andb3 false true true) = false.
 Proof. simpl. reflexivity. Qed.
