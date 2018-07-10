@@ -114,3 +114,19 @@ Fixpoint exp (base power : nat) : nat :=
     | O => S O
     | S p => mult base (exp base p)
   end.
+
+(*Exercise: 1 star (factorial)*)
+(**Recall the standard mathematical factorial function:
+       factorial(0)  =  1
+       factorial(n)  =  n * factorial(n-1)     (if n>0)
+Translate this into Coq.*)
+Fixpoint factorial (n:nat) : nat :=
+  match n with
+  | O => 1
+  | S n' => mult (S n') (factorial n')
+  end.
+
+Example test_factorial1: (factorial 3) = 6.
+  Proof. simpl. reflexivity. Qed.
+Example test_factorial2: (factorial 5) = (mult 10 12).
+Proof. simpl. reflexivity. Qed.
