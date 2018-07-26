@@ -265,3 +265,85 @@ Proof.
    Qed.
   (* (N.b. This proof can actually be completed with tactics other than
      rewrite, but please do use rewrite for the sake of the exercise.) *)
+
+(*Proof by Case Analysis*)
+Theorem plus_1_neq_0 : forall n : nat,
+  beq_nat (n + 1) 0 = false.
+Proof.
+  intros n.
+  destruct n as [| n'].
+  - reflexivity.
+  - reflexivity. Qed.
+
+Theorem negb_involutive : forall b : bool,
+  negb (negb b) = b.
+Proof.
+  intros b. destruct b.
+  - reflexivity.
+  - reflexivity. Qed.
+
+Theorem andb_commutative : forall b c, andb b c = andb c b.
+Proof.
+  intros b c. destruct b.
+  - destruct c.
+    + reflexivity.
+    + reflexivity.
+  - destruct c.
+    + reflexivity.
+    + reflexivity.
+Qed.
+
+Theorem andb_commutative' : forall b c, andb b c = andb c b.
+Proof.
+  intros b c. destruct b.
+  { destruct c.
+    { reflexivity. }
+    { reflexivity. } }
+  { destruct c.
+    { reflexivity. }
+    { reflexivity. } }
+Qed.
+
+Theorem andb3_exchange :
+  forall b c d, andb (andb b c) d = andb (andb b d) c.
+Proof.
+  intros b c d. destruct b.
+  - destruct c.
+    { destruct d.
+      - reflexivity.
+      - reflexivity. }
+    { destruct d.
+      - reflexivity.
+      - reflexivity. }
+  - destruct c.
+    { destruct d.
+      - reflexivity.
+      - reflexivity. }
+    { destruct d.
+      - reflexivity.
+      - reflexivity. }
+Qed.
+
+Theorem plus_1_neq_0' : forall n : nat,
+  beq_nat (n + 1) 0 = false.
+Proof.
+  intros [|n].
+  - reflexivity.
+  - reflexivity. Qed.
+
+Theorem andb_commutative'' :
+  forall b c, andb b c = andb c b.
+Proof.
+  intros [] [].
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+Qed.
+
+(*Exercise: 2 stars (andb_true_elim2)
+Prove the following claim, marking cases (and subcases) with bullets when you use destruct.*)
+Theorem andb_true_elim2 : forall b c : bool, andb b c = true -> c = true.
+Proof.
+    
+  Qed.
