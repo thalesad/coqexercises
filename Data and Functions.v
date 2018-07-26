@@ -184,3 +184,30 @@ Example test_blt_nat2: (blt_nat 2 4) = true.
 Proof. simpl. reflexivity. Qed.
 Example test_blt_nat3: (blt_nat 4 2) = false.
 Proof. simpl. reflexivity. Qed.
+
+(*Exercise: 1 star (factorial)
+Recall the standard mathematical factorial function:
+       factorial(0)  =  1
+       factorial(n)  =  n * factorial(n-1)     (if n>0)
+Translate this into Coq.*)
+
+(*Fixpoint factorial2 (n:nat) : nat :=
+  match n with
+  |0 => 1
+  |S n => n * factorial2 (n)
+  end.
+
+Example test_factorial3: (factorial 3) = 6.
+Proof. simpl. reflexivity. Qed.
+Example test_factorial4: (factorial 5) = (mult 10 12).
+Proof. simpl. reflexivity. Qed.*)
+
+(*Proof by Simplification*)
+
+Theorem plus_O_n : forall n : nat, 0 + n = n.
+Proof.
+  intros n. simpl. reflexivity. Qed.
+
+Theorem plus_O_n' : forall n : nat, 0 + n = n.
+Proof.
+  intros n. reflexivity. Qed.
