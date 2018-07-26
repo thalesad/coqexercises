@@ -244,4 +244,24 @@ Proof.
   rewrite -> H1.
   rewrite -> H2.
   reflexivity.
-  Qed.
+Qed.
+
+Theorem mult_0_plus : forall n m : nat,
+  (0 + n) * m = n * m.
+Proof.
+  intros n m.
+  rewrite -> plus_O_n.
+  reflexivity. Qed.
+
+(*Exercise: 2 stars (mult_S_1)*)
+Theorem mult_S_1 : forall n m : nat,
+  m = S n ->  m * (1 + n) = m * m.
+Proof.
+  intros n m.
+  intros Hm.
+  simpl.
+  rewrite <- Hm. (*destruct Hm.*)
+  reflexivity.
+   Qed.
+  (* (N.b. This proof can actually be completed with tactics other than
+     rewrite, but please do use rewrite for the sake of the exercise.) *)
