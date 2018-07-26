@@ -219,3 +219,24 @@ Theorem mult_0_l : forall n:nat, 0 * n = 0.
 Proof.
   intros n. simpl. reflexivity. Qed. (*remove simpl. to go straighforward*)
 
+(*Proof by rewriting*)
+
+Theorem plus_id_example : forall n m:nat,
+  n = m ->
+  n + n = m + m.
+
+  Proof.
+  (* move both quantifiers into the context: *)
+  intros n m.
+  (* move the hypothesis into the context: *)
+  intros H.
+  (* rewrite the goal using the hypothesis: *)
+  rewrite -> H.
+  reflexivity. Qed.
+
+(*Exercise: 1 star (plus_id_exercise)
+Remove "Admitted." and fill in the proof.*)
+Theorem plus_id_exercise : forall n m o : nat,
+  n = m -> m = o -> n + m = m + o.
+Proof.
+  (* FILL IN HERE *) Admitted.
