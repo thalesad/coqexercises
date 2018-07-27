@@ -343,7 +343,44 @@ Qed.
 
 (*Exercise: 2 stars (andb_true_elim2)
 Prove the following claim, marking cases (and subcases) with bullets when you use destruct.*)
-Theorem andb_true_elim2 : forall b c : bool, andb b c = true -> c = true.
+(*Theorem andb_true_elim2 : forall b c : bool, andb b c = true -> c = true.
 Proof.
-    
-  Qed.
+  intros [] [].
+  - reflexivity.
+  - intros Hbt.
+    +rewrite <- Hbt.
+     simpl.
+     reflexivity.
+  - reflexivity.
+  - intros Hfft.
+    + rewrite <- Hfft.
+      simpl.
+      reflexivity.    
+Qed.*)
+
+(*Theorem andb_true_elim2 : forall b c : bool, andb b c = true -> c = true.
+Proof.
+  intros b.
+  intros c.
+  destruct b.
+  {
+    destruct c.
+    {
+      reflexivity.
+    }
+    {
+    intros Htft.
+    rewrite <- Htft.
+    simpl.
+    reflexivity.
+    }
+  }
+  destruct c.
+  {
+    reflexivity.
+  }
+  intros Hfft.
+  rewrite <- Hfft.
+  simpl.
+  reflexivity.
+  Qed.*)
