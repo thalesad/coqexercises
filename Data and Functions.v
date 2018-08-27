@@ -423,7 +423,7 @@ Proof.
   Qed.*)
 
 (*Exercise: 1 star (zero_nbeq_plus_1)*)
-Theorem zero_nbeq_plus_1 :forall n : nat,
+(*Theorem zero_nbeq_plus_1 :forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
   intros [|n].
@@ -431,6 +431,24 @@ Proof.
     simpl.
     reflexivity.
   }
+  {
+    simpl.
+    reflexivity.
+  }
+Qed.*)
+
+(*Exercise: 1 star (zero_nbeq_plus_1)*)
+Theorem zero_nbeq_plus_1 :forall n : nat,
+  beq_nat 0 (n + 1) = false.
+Proof.
+  intros n.
+  simpl.
+  destruct n.
+  {
+    simpl.
+    reflexivity.
+  }
+
   {
     simpl.
     reflexivity.
