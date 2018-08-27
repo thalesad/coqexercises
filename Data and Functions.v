@@ -341,6 +341,43 @@ Proof.
   - reflexivity.
 Qed.
 
+(*Below, I present three ways to solve the same exercise*)
+(*Exercise: 2 stars (andb_true_elim2)
+Prove the following claim, marking cases (and subcases) with bullets when you use destruct.*)
+Theorem andb_true_elim2 : forall b c : bool, andb b c = true -> c = true.
+Proof.
+
+  intros b c.
+  destruct b.
+  {
+    destruct c.
+    {
+      reflexivity.
+    }
+    {
+      intros Htft.
+      rewrite <- Htft.
+      simpl.
+      reflexivity.
+    }
+  }
+
+  {
+    destruct c.
+    {
+      intros Hftt.
+      reflexivity.
+    }
+
+    {
+      intros Hfft.
+      rewrite <- Hfft.
+      simpl.
+      reflexivity.
+    }
+  }
+Qed.
+
 (*Exercise: 2 stars (andb_true_elim2)
 Prove the following claim, marking cases (and subcases) with bullets when you use destruct.*)
 (*Theorem andb_true_elim2 : forall b c : bool, andb b c = true -> c = true.
@@ -384,3 +421,18 @@ Proof.
   simpl.
   reflexivity.
   Qed.*)
+
+(*Exercise: 1 star (zero_nbeq_plus_1)*)
+Theorem zero_nbeq_plus_1 :forall n : nat,
+  beq_nat 0 (n + 1) = false.
+Proof.
+  intros [|n].
+  {
+    simpl.
+    reflexivity.
+  }
+  {
+    simpl.
+    reflexivity.
+  }
+Qed.
