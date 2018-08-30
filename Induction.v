@@ -120,12 +120,16 @@ Theorem plus_comm : forall n m : nat,
 Proof.
   intros n m.
   induction n.
-  apply plus_n_O.
-  simpl.
-  rewrite -> IHn.
-  apply plus_n_m_n_plus_Sn.
+  +
+    rewrite <- plus_n_O.
+    simpl.
+    reflexivity.
+  +
+    simpl.
+    rewrite -> IHn.
+    apply plus_n_m_n_plus_Sn.
 Qed.
-  
+ 
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
@@ -139,4 +143,45 @@ Proof.
     simpl.
     rewrite <- IHn.
     reflexivity.
-  Qed.
+Qed.
+
+(*Exercise: 2 stars (double_plus)
+Consider the following function, which doubles its argument:*)
+Fixpoint double (n:nat) :=
+  match n with
+  | O => O
+  | S n' => S (S (double n'))
+  end.
+
+(*Use induction to prove this simple fact about double:*)
+Lemma double_plus : forall n, double n = n + n .
+Proof.
+  intros n.
+  induction n as [|n IHn].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    rewrite -> IHn.
+    
+
+Admitted.
+
+Theorem sum_n_n_n_Sn : forall n : nat, S (n + n) = (n + S n).
+Proof.
+  intros n.
+  induction n as [|n IHn].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    rewrite <- IHn.
+    induction n.
+    +
+      simpl.
+      reflexivity.
+    +
+      simpl.
+      rewrite 
