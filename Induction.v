@@ -170,3 +170,35 @@ Proof.
     reflexivity.
 Qed.
 
+(*Auxiliar for exercise below*)
+Theorem negb_negb_b : forall b : bool, negb (negb b) = b.
+Proof.
+  intro b.
+  destruct b.
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    reflexivity.
+Qed.
+
+
+(*Exercise: 2 stars, optional (evenb_S)
+One inconvenient aspect of our definition of evenb n is the recursive call on n - 2. This makes proofs about evenb n harder when done by induction on n, since we may need an induction hypothesis about n - 2. The following lemma gives an alternative characterization of evenb (S n) that works better with induction:*)
+Theorem evenb_S : forall n : nat, evenb (S n) = negb (evenb n).
+Proof.
+  intro n.
+  simpl.
+  induction n.
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    rewrite -> IHn.
+    rewrite -> negb_negb_b.
+    reflexivity.
+   
+Qed.
+
