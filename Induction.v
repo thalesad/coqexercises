@@ -115,6 +115,7 @@ Proof.
     reflexivity.
 Qed.
 
+
 Theorem plus_comm : forall n m : nat,
   n + m = m + n.
 Proof.
@@ -125,11 +126,12 @@ Proof.
     simpl.
     reflexivity.
   +
-    simpl.
-    rewrite -> IHn.
-    apply plus_n_m_n_plus_Sn.
+    simpl. 
+    rewrite -> IHn.    
+    rewrite <- plus_n_m_n_plus_Sn.
+    reflexivity.
 Qed.
- 
+
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
@@ -157,31 +159,14 @@ Fixpoint double (n:nat) :=
 Lemma double_plus : forall n, double n = n + n .
 Proof.
   intros n.
-  induction n as [|n IHn].
+  induction n as [|n' IHn'].
   -
     simpl.
     reflexivity.
   -
     simpl.
-    rewrite -> IHn.
-    
-
-Admitted.
-
-Theorem sum_n_n_n_Sn : forall n : nat, S (n + n) = (n + S n).
-Proof.
-  intros n.
-  induction n as [|n IHn].
-  -
-    simpl.
+    rewrite -> IHn'.
+    rewrite -> plus_n_m_n_plus_Sn.
     reflexivity.
-  -
-    simpl.
-    rewrite <- IHn.
-    induction n.
-    +
-      simpl.
-      reflexivity.
-    +
-      simpl.
-      rewrite 
+Qed.
+
