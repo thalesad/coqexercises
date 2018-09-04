@@ -206,7 +206,7 @@ Theorem mult_0_plus' : forall n m : nat,
   (0 + n) * m = n * m.
 Proof.
   intros n m.
-  assert (H: 0 + n = n). { simpl. reflexivity. }(*Simpl. added by me*)
+  assert (H: 0 + n = n). { simpl. reflexivity. }(*"Simpl" added by me*)
   rewrite -> H.
   reflexivity. Qed.
 
@@ -227,3 +227,35 @@ Proof.
   assert (H: n + m = m + n).
   { rewrite -> plus_comm. reflexivity. }
   rewrite -> H. reflexivity. Qed.
+
+Theorem plus_assoc' : forall n m p : nat,
+  n + (m + p) = (n + m) + p.
+Proof. intros n m p. induction n as [| n' IHn']. reflexivity.
+       simpl. rewrite -> IHn'. reflexivity. Qed.
+
+Theorem plus_assoc'' : forall n m p : nat,
+  n + (m + p) = (n + m) + p.
+Proof.
+  intros n m p. induction n as [| n' IHn'].
+  - (* n = 0 *)
+    reflexivity.
+  - (* n = S n' *)
+    simpl. rewrite -> IHn'. reflexivity. Qed.
+
+(*Exercise: 2 stars, optional (beq_nat_refl_informal)
+Write an informal proof of the following theorem, using the informal proof of plus_assoc as a model. Don't just paraphrase the Coq tactics into English!*)
+Theorem beq_nat_refl_informal: forall n : nat, beq_nat n n = true.
+Proof.
+
+  intro n.
+  induction n as [|n' IHn].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    (*assumption.*)
+    (*apply IHn.*)
+    rewrite <- IHn.
+    reflexivity.
+Qed.
