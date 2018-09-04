@@ -259,3 +259,28 @@ Proof.
     rewrite <- IHn.
     reflexivity.
 Qed.
+
+(*My simpler beq_nat*)
+Fixpoint beq_nat_easy (n m : nat) : bool :=
+  match n, m with
+  | 0, 0 => true
+  | S n, S m => beq_nat_easy n m
+  | _, _ => false
+  end.
+
+(*My new - and personal - version of the theorem*)
+Theorem beq_nat_refl_informal_easy: forall n : nat, beq_nat_easy n n = true.
+Proof.
+
+  intro n.
+  induction n as [|n' IHn].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    (*assumption.*)
+    (*apply IHn.*)
+    rewrite <- IHn.
+    reflexivity.
+Qed.
