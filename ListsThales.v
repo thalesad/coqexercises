@@ -225,4 +225,37 @@ Example test_alternate4:
   alternate [] [20;30] = [20;30].
 simpl.
 reflexivity.
-Qed.
+  Qed.
+
+  Definition bag := natlist.
+
+  (**Exercise: 3 stars, recommended (bag_functions)
+Complete the following definitions for the functions count, sum, add, and member for bags.*)
+Fixpoint count (v:nat) (s:bag) : nat :=
+  match s with
+  | nil => 0
+  | h :: t => match h with
+              | v => 1 + (count v t)
+              end
+  end.
+
+Fixpoint equal (a b:nat) : bool :=
+  match a with
+  | 0 => match b with
+         | 0 => true
+         | S n => false
+         end
+  | S n => match b with
+           | S n => true
+           | _ => false
+           end
+  end.
+
+
+Compute equal 2 3.
+
+
+Compute count 1 [1;2;3;1;4;1].
+(**Example test_count1: count 1 [1;2;3;1;4;1] = 3.
+simpl.
+  Qed.*)
