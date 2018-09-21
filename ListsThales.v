@@ -234,28 +234,15 @@ Complete the following definitions for the functions count, sum, add, and member
 Fixpoint count (v:nat) (s:bag) : nat :=
   match s with
   | nil => 0
-  | h :: t => match h with
-              | v => 1 + (count v t)
-              end
+  | h :: t => if beq_nat v h then 1 + count v t else count v t
   end.
-
-Fixpoint equal (a b:nat) : bool :=
-  match a with
-  | 0 => match b with
-         | 0 => true
-         | S n => false
-         end
-  | S n => match b with
-           | S n => true
-           | _ => false
-           end
-  end.
-
-
-Compute equal 2 3.
-
 
 Compute count 1 [1;2;3;1;4;1].
-(**Example test_count1: count 1 [1;2;3;1;4;1] = 3.
+Example test_count1: count 1 [1;2;3;1;4;1] = 3.
 simpl.
-  Qed.*)
+reflexivity.
+  Qed.
+Example test_count2: count 6 [1;2;3;1;4;1] = 0.
+simpl.
+reflexivity.
+Qed.
