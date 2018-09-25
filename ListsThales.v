@@ -245,14 +245,55 @@ reflexivity.
 Example test_count2: count 6 [1;2;3;1;4;1] = 0.
 simpl.
 reflexivity.
-Qed.
+  Qed.
 
   Definition sum : bag -> bag -> bag :=
+    alternate.
+
+   Example test_sum1: count 1 (sum [1;2;3] [1;4;1]) = 3.
+   simpl.
+   reflexivity.
+   Qed.
+
+  (**Another way of implementing sum using anonymouys function*)
+(** Definition sum : bag -> bag -> bag :=
     fun x y =>
       match x,y with
       | [], y => y
       | x, [] => x
       | x, y => x ++ y
-      end.
+      end.*)
 
+  Definition add (v:nat) (s:bag) : bag :=
+    match s with
+    | nil => [v]
+    | h :: t => [v] ++ s
+  end.
+
+  Compute add 1 [1;4;1].
+
+  Example test_add1: count 1 (add 1 [1;4;1]) = 3.
+  simpl.
+  reflexivity.
+  Qed.
+
+  Example test_add2: count 5 (add 1 [1;4;1]) = 0.
+  simpl.
+  reflexivity.
+  Qed.
+
+  Fixpoint member (v:nat) (s:bag) : bool :=
+    match s with
+    | nil => false
+    | h :: t => if beq_nat h v then true else member  v t 
+    end.
+
+  Example test_member1: member 1 [1;4;1] = true.
+  simpl.
+  reflexivity.
+  Qed.
   
+  Example test_member2: member 2 [1;4;1] = false.
+  simpl.
+  reflexivity.
+  Qed.
