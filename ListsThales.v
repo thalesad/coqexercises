@@ -248,7 +248,7 @@ reflexivity.
   Qed.
 
   Definition sum : bag -> bag -> bag :=
-    alternate.
+    app. (*or alternate*)
 
    Example test_sum1: count 1 (sum [1;2;3] [1;4;1]) = 3.
    simpl.
@@ -297,3 +297,64 @@ reflexivity.
   simpl.
   reflexivity.
   Qed.
+
+  Fixpoint remove_one (v:nat) (s:bag) : bag :=
+    match s with
+    | nil => nil
+    | h :: t => if beq_nat h v then t else [h] ++ remove_one v t
+    end.
+
+  Compute remove_one 2 [2;3;5;3;2;7].
+
+  Example test_remove_one1:
+  count 5 (remove_one 5 [2;1;5;4;1]) = 0.
+  simpl.
+  reflexivity.
+  Qed.
+  
+Example test_remove_one2:
+  count 5 (remove_one 5 [2;1;4;1]) = 0.
+simpl.
+reflexivity.
+Qed.
+
+Example test_remove_one3:
+  count 4 (remove_one 5 [2;1;4;5;1;4]) = 2.
+simpl.
+reflexivity.
+  Qed.
+
+  
+Example test_remove_one4:
+  count 5 (remove_one 5 [2;1;5;4;5;1;4]) = 1.
+simpl.
+reflexivity.
+  Qed.
+
+  Fixpoint remove_all (v:nat) (s:bag) : bag :=
+    match s with
+    | nil => nil
+    | h :: t => if beq_nat h v then remove_all v t else [h] ++ remove_all v t
+    end.
+
+  Compute remove_all 5 [5;5;5;2;7;2;1;5;4;5;1;5;4].
+
+  Example test_remove_all1: count 5 (remove_all 5 [2;1;5;4;1]) = 0.
+  simpl.
+  reflexivity.
+  Qed.
+  
+  Example test_remove_all2: count 5 (remove_all 5 [2;1;4;1]) = 0.
+  simpl.
+  reflexivity.
+  Qed.
+  
+Example test_remove_all3: count 4 (remove_all 5 [2;1;4;5;1;4]) = 2.
+simpl.
+reflexivity.
+  Qed.
+  
+Example test_remove_all4: count 5 (remove_all 5 [2;1;5;4;5;1;4;5;1;4]) = 0.
+simpl.
+  reflexivity.
+Qed.
