@@ -246,3 +246,13 @@ Example test_count2: count 6 [1;2;3;1;4;1] = 0.
 simpl.
 reflexivity.
 Qed.
+
+  Definition sum : bag -> bag -> bag :=
+    fun x y =>
+      match x,y with
+      | [], y => y
+      | x, [] => x
+      | x, y => x ++ y
+      end.
+
+  
