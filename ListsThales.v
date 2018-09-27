@@ -357,4 +357,26 @@ reflexivity.
 Example test_remove_all4: count 5 (remove_all 5 [2;1;5;4;5;1;4;5;1;4]) = 0.
 simpl.
   reflexivity.
+  Qed.
+
+  Fixpoint subset (s1:bag) (s2:bag) : bool :=
+    match s1, s2 with
+    | nil, _ => true (**nil is subset of anything*)
+    | _, nil => false (**nothing is subset of nil*)
+    | h :: t, s2 => if member h s2 then subset t (remove_one h s2) else false   
+    end.
+
+Example test_subset1: subset [1;2] [2;1;4;1] = true.
+simpl.
+reflexivity.
+  Qed.
+  
+Example test_subset2: subset [1;2;2] [2;1;4;1] = false.
+simpl.
+reflexivity.
+  Qed.
+
+Theorem bag_theorem : ...
+Proof.
+  
 Qed.
