@@ -282,11 +282,18 @@ reflexivity.
   reflexivity.
   Qed.
 
-  Fixpoint member (v:nat) (s:bag) : bool :=
+  Definition member (v:nat) (s:bag) : bool :=
+    match count v s with
+    | 0 => false
+    | _ => true
+    end.
+  
+
+  (**Fixpoint member (v:nat) (s:bag) : bool :=
     match s with
     | nil => false
     | h :: t => if beq_nat h v then true else member  v t 
-    end.
+    end.*)
 
   Example test_member1: member 1 [1;4;1] = true.
   simpl.
@@ -376,7 +383,14 @@ simpl.
 reflexivity.
   Qed.
 
-Theorem bag_theorem : ...
+Theorem bag_theorem : forall (l: bag) (x: nat), length( add (count x l) l ) = length (add x l).
 Proof.
-  
+  intros l x.
+  induction l.
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    reflexivity.
 Qed.
