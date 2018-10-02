@@ -473,4 +473,53 @@ Proof.
 
 Search rev.
 
-(**List Exercises, Part 1)
+(**List Exercises, Part 1*)
+Theorem app_nil_r : forall l : natlist,
+  l ++ [] = l.
+Proof.
+  intros l.
+  induction l as [| n l' IHl].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    rewrite -> IHl.
+    reflexivity.
+Qed.
+
+Theorem rev_app_distr: forall l1 l2 : natlist,
+  rev (l1 ++ l2) = rev l2 ++ rev l1.
+Proof.
+  intros l1 l2.
+  induction l1 as [| n l IHl].
+  -
+    simpl.
+    rewrite -> app_nil_r.
+    reflexivity.
+  -
+    simpl.
+    rewrite -> IHl.
+    Search app.
+    rewrite -> app_assoc.
+    reflexivity.
+Qed.
+
+Search app.
+
+Theorem rev_involutive : forall l : natlist,
+  rev (rev l) = l.
+Proof.
+  intro l.
+  induction l as [| n l' IHl].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    rewrite -> rev_app_distr.
+    simpl.
+    rewrite -> IHl.
+    reflexivity.
+Qed.
+
