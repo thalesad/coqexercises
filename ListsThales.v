@@ -523,3 +523,30 @@ Proof.
     reflexivity.
 Qed.
 
+Theorem app_assoc4 : forall l1 l2 l3 l4 : natlist,
+  l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
+Proof.
+  intros l1 l2 l3 l4.
+  induction l1 as [|n l' IHl].
+  -
+    simpl.
+    rewrite -> app_assoc.
+    reflexivity.
+  -
+    simpl.
+    rewrite -> IHl.
+    reflexivity.
+Qed.
+
+Lemma nonzeros_app : forall l1 l2 : natlist,
+  nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
+Proof.
+  intros l1 l2.
+  induction l1 as [|n l' IHl].
+  -
+    simpl.
+    reflexivity.
+  -
+    Search nonzeros.
+    simpl.
+    
