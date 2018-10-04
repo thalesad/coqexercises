@@ -548,5 +548,13 @@ Proof.
     reflexivity.
   -
     Search nonzeros.
-    simpl.
-    
+    destruct n.
+    +
+      simpl.
+      rewrite -> IHl.
+      reflexivity.
+    +
+      simpl.
+      rewrite IHl.
+      reflexivity.
+Qed.
