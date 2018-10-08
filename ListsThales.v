@@ -663,3 +663,21 @@ Proof.
       simpl.
       reflexivity.
 Qed.
+
+(**incomplete*)
+Theorem bag_count_sum : forall (n : nat) (s : bag), leb (count n s) (count n (sum [n] s)) = true.
+Proof.
+  intros n s.
+  induction n.
+  -
+    simpl.
+    rewrite -> ble_n_Sn.
+    reflexivity.
+  -
+    induction s as [|h].
+    +
+      simpl.
+      reflexivity.
+    +
+      Admitted.
+      
