@@ -548,7 +548,7 @@ Proof.
     reflexivity.
   -
     Search nonzeros.
-    destruct n.
+    induction n.
     +
       simpl.
       rewrite -> IHl.
@@ -558,3 +558,65 @@ Proof.
       rewrite IHl.
       reflexivity.
 Qed.
+
+Search count.
+
+(**Auxiliar Fixpoint for Definition member_nat*)
+Fixpoint count_nat (v:nat) (s:natlist) : nat :=
+  match s with
+  | nil => 0
+  | h :: t => if beq_nat v h then 1 + count_nat v t else count_nat v t
+  end.
+
+(**Auxiliar Definition for Fixpoint beq_natlist*)
+Definition member_nat (v:nat) (s:natlist) : bool :=
+      match count_nat v s with
+    | 0 => false
+    | _ => true
+    end.
+
+
+Fixpoint beq_natlist (l1 l2 : natlist) : bool :=
+  match l1, l2 with
+  | nil, nil => true
+  | nil, _ => false
+  | _, nil => false
+  | h::t, d::l =>  if beq_nat h d then beq_natlist t l else false
+  end.
+
+Example test_beq_natlist1 :
+  (beq_natlist nil nil = true).
+simpl.
+reflexivity.
+  Qed.
+
+  Example test_beq_natlist2 :
+    beq_natlist [1;2;3] [1;2;3] = true.
+  simpl.
+  reflexivity.
+
+  Example test_beq_natlist3 :
+    beq_natlist [1;2;3] [1;2;4] = false.
+  simpl.
+  reflexivity.
+
+  Theorem beq_natlist_refl : forall l:natlist,
+  true = beq_natlist l l.
+Proof.
+  intro l.
+  induction l as [|n].
+  -
+    simpl.
+    reflexivity.
+  -
+    rewrite -> IHl.
+    induction n.
+    +
+      simpl.
+      reflexivity.
+    +
+      rewrite -> IHn.
+      reflexivity.
+Qed.
+
+
