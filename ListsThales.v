@@ -619,4 +619,47 @@ Proof.
       reflexivity.
 Qed.
 
+Theorem count_member_nonzero : forall (s : bag),
+  leb 1 (count 1 (1 :: s)) = true.
+Proof.
+  intro l.
+  induction l as [|n IHl].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    reflexivity.
+Qed.
 
+(**The following lemma about leb might help you in the next exercise.*)
+Theorem ble_n_Sn : forall n,
+  leb n (S n) = true.
+Proof.
+  intros n. induction n as [| n' IHn'].
+  - (* 0 *)
+    simpl. reflexivity.
+  - (* S n' *)
+    simpl. rewrite IHn'. reflexivity. Qed.
+
+(**Exercise: 3 stars, advanced (remove_does_not_increase_count)*)
+Theorem remove_does_not_increase_count: forall (s : bag),
+  leb (count 0 (remove_one 0 s)) (count 0 s) = true.
+Proof.
+  intros s.
+  induction s as [|n].
+  -
+    simpl.
+    reflexivity.
+  -
+    rewrite <- IHs.
+    induction n.
+    +
+      simpl.
+      rewrite -> ble_n_Sn.
+      rewrite -> IHs.
+      reflexivity.
+    +
+      simpl.
+      reflexivity.
+Qed.
