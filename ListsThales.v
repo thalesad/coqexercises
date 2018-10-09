@@ -828,3 +828,9 @@ Fixpoint find (x : id) (d : partial_map) : natoption :=
                      then Some v
                      else find x d'
   end.
+
+Theorem update_eq :
+  forall (d : partial_map) (x : id) (v: nat),
+    find x (update d x v) = Some v.
+Proof.
+  
