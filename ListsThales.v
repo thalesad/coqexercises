@@ -231,10 +231,19 @@ reflexivity.
 
   (**Exercise: 3 stars, recommended (bag_functions)
 Complete the following definitions for the functions count, sum, add, and member for bags.*)
-Fixpoint count (v:nat) (s:bag) : nat :=
+(**Fixpoint count (v:nat) (s:bag) : nat :=
   match s with
   | nil => 0
   | h :: t => if beq_nat v h then 1 + count v t else count v t
+  end.*)
+
+  Fixpoint count (v:nat) (s:bag) : nat :=
+  match s with
+  | nil => 0
+  | h :: t => match beq_nat h v with
+              | true => 1 + count v t
+              | false => count v t
+              end
   end.
 
 Compute count 1 [1;2;3;1;4;1].
@@ -663,7 +672,7 @@ Proof.
       simpl.
       reflexivity.
 Qed.
-
+    
 (**incomplete*)
 Theorem bag_count_sum : forall (n : nat) (s : bag), leb (count n s) (count n (sum [n] s)) = true.
 Proof.
@@ -674,18 +683,19 @@ Proof.
     rewrite -> ble_n_Sn.
     reflexivity.
   -
-    induction s as [|h].
+    induction s as [|head].
     +
       simpl.
       reflexivity.
     +
-      Admitted.
-  Qed.
+      
+      
+  Admitted.
 
   (**incomplete*)
   Theorem rev_injective : forall (l1 l2 : natlist), rev l1 = rev l2 -> l1 = l2.
   Proof.
-    intros l1 l2.
+    intros l1.
     induction l1.
     -
       simpl.
@@ -694,7 +704,79 @@ Proof.
         simpl.
         reflexivity.
       +
+        simpl.
         rewrite <- IHl2.
+        simpl.
+        --
+          intros H.
+          assumption.
+        --
+          simpl.
+          destruct IHl2.
+          ++
+            simpl.
   Admitted.
 
+  Fixpoint nth_bad (l:natlist) (n:nat) : nat :=
+  match l with
+  | nil => 42 (* arbitrary! *)
+  | a :: l' => match beq_nat n O with 
+               | true => a
+               | false => nth_bad l' (pred n)
+               end
+  end.
+
+  Inductive natoption : Type :=
+  | Some : nat -> natoption
+  | None : natoption.
+
+  Fixpoint nth_error (l:natlist) (n:nat) : natoption :=
+  match l with
+  | nil => None
+  | a :: l' => match beq_nat n O with
+               | true => Some a
+               | false => nth_error l' (pred n)
+               end
+  end.
+
+Example test_nth_error1 : nth_error [4;5;6;7] 0 = Some 4.
+Proof. reflexivity. Qed.
+Example test_nth_error2 : nth_error [4;5;6;7] 3 = Some 7.
+Proof. reflexivity. Qed.
+Example test_nth_error3 : nth_error [4;5;6;7] 9 = None.
+Proof. reflexivity. Qed.
+
+Fixpoint nth_error' (l:natlist) (n:nat) : natoption :=
+  match l with
+  | nil => None
+  | a :: l' => if beq_nat n O then Some a
+               else nth_error' l' (pred n)
+  end.
+
+Definition option_elim (d : nat) (o : natoption) : nat :=
+  match o with
+  | Some n' => n'
+  | None => d
+  end.
+
+Definition hd_error (l : natlist) : natoption :=
+  match l with
+  | nil => None
+  | h :: t => Some h
+  end.
+
   
+Example test_hd_error1 : hd_error [] = None.
+simpl.
+reflexivity.
+Qed.
+
+Example test_hd_error2 : hd_error [1] = Some 1.
+simpl.
+reflexivity.
+Qed.
+
+Example test_hd_error3 : hd_error [5;6] = Some 5.
+simpl.
+reflexivity.
+Qed.
