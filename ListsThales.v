@@ -694,16 +694,16 @@ Proof.
       
   Admitted.
 
+Require Import Setoid.
   (**incomplete*)
   Theorem rev_injective : forall (l1 l2 : natlist), rev l1 = rev l2 -> l1 = l2.
-  Proof.
-
-    Search rev.
-    intros l1 l2.
-    induction l1.
-    -
-      simpl. (**I give up*)
-  Abort.
+Proof.
+  intros l1 l2 H.
+  rewrite <- rev_involutive at 1.
+  rewrite H.
+  rewrite rev_involutive.
+  reflexivity.
+Qed.
   
 
   Fixpoint nth_bad (l:natlist) (n:nat) : nat :=
@@ -829,8 +829,29 @@ Fixpoint find (x : id) (d : partial_map) : natoption :=
                      else find x d'
   end.
 
+(**incomplete*)
 Theorem update_eq :
   forall (d : partial_map) (x : id) (v: nat),
     find x (update d x v) = Some v.
 Proof.
-  
+  intros.
+Admitted.
+
+Theorem update_neq :
+  forall (d : partial_map) (x y : id) (o: nat),
+    beq_id x y = false -> find x (update d y o) = find x d.
+Proof.
+  intros d x y o.
+  intro Hxy.
+  induction d.
+  -
+    simpl.
+    rewrite -> Hxy.
+    reflexivity.
+  -
+    simpl.
+    rewrite -> Hxy.
+    reflexivity.
+Qed.
+
+    
