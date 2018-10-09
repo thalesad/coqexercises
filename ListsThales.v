@@ -780,3 +780,16 @@ Example test_hd_error3 : hd_error [5;6] = Some 5.
 simpl.
 reflexivity.
 Qed.
+
+Theorem option_elim_hd : forall (l:natlist) (default:nat),
+  hd default l = option_elim default (hd_error l).
+Proof.
+  intros l default.
+  induction l as [|head].
+  -
+    simpl.
+    reflexivity.
+  -
+    simpl.
+    reflexivity.
+Qed.
