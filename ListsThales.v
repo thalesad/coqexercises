@@ -603,11 +603,13 @@ reflexivity.
     beq_natlist [1;2;3] [1;2;3] = true.
   simpl.
   reflexivity.
+  Qed.
 
   Example test_beq_natlist3 :
     beq_natlist [1;2;3] [1;2;4] = false.
   simpl.
   reflexivity.
+  Qed.
 
   Theorem beq_natlist_refl : forall l:natlist,
   true = beq_natlist l l.
@@ -695,27 +697,14 @@ Proof.
   (**incomplete*)
   Theorem rev_injective : forall (l1 l2 : natlist), rev l1 = rev l2 -> l1 = l2.
   Proof.
-    intros l1.
+
+    Search rev.
+    intros l1 l2.
     induction l1.
     -
-      simpl.
-      induction l2.
-      +
-        simpl.
-        reflexivity.
-      +
-        simpl.
-        rewrite <- IHl2.
-        simpl.
-        --
-          intros H.
-          assumption.
-        --
-          simpl.
-          destruct IHl2.
-          ++
-            simpl.
-  Admitted.
+      simpl. (**I give up*)
+  Abort.
+  
 
   Fixpoint nth_bad (l:natlist) (n:nat) : nat :=
   match l with
@@ -776,6 +765,7 @@ simpl.
 reflexivity.
 Qed.
 
+
 Example test_hd_error3 : hd_error [5;6] = Some 5.
 simpl.
 reflexivity.
@@ -793,6 +783,8 @@ Proof.
     simpl.
     reflexivity.
 Qed.
+
+End NatList.
 
 Inductive id : Type :=
 | Id : nat -> id.
@@ -817,3 +809,22 @@ Proof.
       rewrite <- IHn.
       reflexivity.
 Qed.
+
+Module PartialMap.
+Export NatList.
+Inductive partial_map : Type :=
+  | empty : partial_map
+  | record : id -> nat -> partial_map -> partial_map.
+
+Definition update (d : partial_map)
+                  (x : id) (value : nat)
+                  : partial_map :=
+  record x value d.
+
+Fixpoint find (x : id) (d : partial_map) : natoption :=
+  match d with
+  | empty => None
+  | record y v d' => if beq_id x y
+                     then Some v
+                     else find x d'
+  end.
