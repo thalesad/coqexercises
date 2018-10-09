@@ -793,3 +793,27 @@ Proof.
     simpl.
     reflexivity.
 Qed.
+
+Inductive id : Type :=
+| Id : nat -> id.
+
+Definition beq_id (x1 x2 : id) :=
+  match x1, x2 with
+  | Id n1, Id n2 => beq_nat n1 n2
+  end.
+
+Theorem beq_id_refl : forall x, true = beq_id x x.
+Proof.
+  intro x.
+  induction x.
+  -
+    simpl.
+    induction n.
+    +
+      simpl.
+      reflexivity.
+    +
+      simpl.
+      rewrite <- IHn.
+      reflexivity.
+Qed.
