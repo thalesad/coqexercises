@@ -392,6 +392,7 @@ simpl.
 reflexivity.
   Qed.
 
+  (**my theorem*)
 Theorem bag_theorem : forall (l: bag) (x: nat), length( add (count x l) l ) = length (add x l).
 Proof.
   intros l x.
@@ -675,7 +676,6 @@ Proof.
       reflexivity.
 Qed.
     
-(**incomplete*)
 Theorem bag_count_sum : forall (n : nat) (s : bag), leb (count n s) (count n (sum [n] s)) = true.
 Proof.
   intros n s.
@@ -685,17 +685,14 @@ Proof.
     rewrite -> ble_n_Sn.
     reflexivity.
   -
-    induction s as [|head].
-    +
-      simpl.
-      reflexivity.
-    +
-      
-      
-  Admitted.
+    simpl.
+    rewrite <- beq_nat_refl.
+    rewrite -> ble_n_Sn.
+    reflexivity.
+Qed.
 
 Require Import Setoid.
-  (**incomplete*)
+
   Theorem rev_injective : forall (l1 l2 : natlist), rev l1 = rev l2 -> l1 = l2.
 Proof.
   intros l1 l2 H.
@@ -829,13 +826,23 @@ Fixpoint find (x : id) (d : partial_map) : natoption :=
                      else find x d'
   end.
 
-(**incomplete*)
+
 Theorem update_eq :
   forall (d : partial_map) (x : id) (v: nat),
     find x (update d x v) = Some v.
 Proof.
-  intros.
-Admitted.
+  intros d x v.
+  induction d.
+  -
+    simpl.
+    rewrite <- beq_id_refl.
+    reflexivity.
+  -
+    simpl.
+    rewrite <- beq_id_refl.
+    reflexivity.
+Qed.
+
 
 Theorem update_neq :
   forall (d : partial_map) (x y : id) (o: nat),
@@ -853,5 +860,5 @@ Proof.
     rewrite -> Hxy.
     reflexivity.
 Qed.
-
+End PartialMap.
     
