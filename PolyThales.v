@@ -26,3 +26,19 @@ Example test_repeat2 :
   repeat bool false 1 = cons bool false (nil bool).
 Proof. reflexivity. Qed.
 
+Module MumbleGrumble.
+Inductive mumble : Type :=
+  | a : mumble
+  | b : mumble -> nat -> mumble
+  | c : mumble.
+Inductive grumble (X:Type) : Type :=
+  | d : mumble -> grumble X
+  | e : X -> grumble X.
+
+(*Check d (b a 5).*)
+Check d mumble (b a 5).
+Check d bool (b a 5).
+Check e bool true.
+Check e mumble (b c 0).
+(*Check e bool (b c 0).*)
+Check c.
